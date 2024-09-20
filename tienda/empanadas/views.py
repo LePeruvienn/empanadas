@@ -18,6 +18,6 @@ def ingredients(request):
     lesIngredients = Ingredient.objects.all()
     return render(
             request,
-            'ingredients/ingredients.html',
+            'empanadas/ingredients.html',
             {'ingredients' : lesIngredients}
             )

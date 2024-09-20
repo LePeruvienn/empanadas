@@ -1,0 +1,12 @@
+{% extends 'empanadas/base.html' %}
+
+{% block title %} les ingredients {% endblock %}
+
+{% block main %}
+<h2> Voici nos {{ingredients|length}} ingredients </h2>
+<ul>
+	{% for ing in ingredients %}
+	<li> {{ing}} </li>
+	{% endfor %}
+</ul>
+{% endblock %}
