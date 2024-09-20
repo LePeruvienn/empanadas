@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="fr">
+	<head>
+		<meta charset="utf-8" />
+		<title> les empanadas </title>
+	</head>
+	<body>
+		<header>
+			<nav>
+				<div> <a href="/empanadas"> les empanadas </a> </div>
+				<div> <a href="/ingredients"> les ingrédients </a> </div>
+			</nav>
+		</header>
+		<main>
+			<h2> Voici nos {{empanadas|length}} empanadas </h2>
+			<ul>
+				{% for emp in empanadas %}
+				<li> {{emp}} </li>
+				{% endfor %}
+			</ul>
+		</main>
+		<footer>
+			&#127279; Tienda Django Criollo
+		</footer>
+	</body>
+</html>
+	
+
