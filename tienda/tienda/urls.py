@@ -21,5 +21,6 @@ from empanadas import views
 urlpatterns = [
     path('admin/', admin.site.urls),
     path( 'empanadas/', views.empanadas),
+    path( 'empanadas/<int:empanada_id>', views.empanada),
     path( 'ingredients/', views.ingredients),
 ]

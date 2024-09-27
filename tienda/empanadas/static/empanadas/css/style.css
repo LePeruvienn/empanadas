@@ -4,3 +4,8 @@ footer {
 	left: 0;
 	bottom: 0;
 }
+
+img[alt="logo"] {
+
+	width: 50px;
+}
