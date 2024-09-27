@@ -23,4 +23,6 @@ urlpatterns = [
     path( 'empanadas/', views.empanadas),
     path( 'empanadas/<int:empanada_id>', views.empanada),
     path( 'ingredients/', views.ingredients),
+    path( 'ingredients/add', views.formulaireCreationIngredient),
+    path( 'ingredients/create', views.creerIngredient),
 ]

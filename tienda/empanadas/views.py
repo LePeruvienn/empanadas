@@ -2,6 +2,7 @@ from django.shortcuts import render
 from empanadas.models import Empanada
 from empanadas.models import Ingredient
 from empanadas.models import Composition
+from empanadas.forms import IngredientForm
 
 # Create your views here.
 
@@ -36,3 +37,24 @@ def empanada(request, empanada_id):
                 'composition' : compo 
             }
     )
+
+def formulaireCreationIngredient(request):
+    return render (
+            request,
+            'empanadas/formulaireCreationIngredient.html'
+            )
+
+def creerIngredient(request):
+    form = IngredientForm(request.POST)
+    if form.is_valid():
+        nomIngr = form.cleaned_data['nomIngredient']
+        ingr = Ingredient()
+        ingr.nomIngredient = nomIngr
+        ingr.save()
+        return render(
+                request,
+                'empanadas/traitementFormulaireCreationIngredient.html',
+                {
+                    'nom' : nomIngr,
+                }
+        )
