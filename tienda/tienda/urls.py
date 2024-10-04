@@ -25,4 +25,6 @@ urlpatterns = [
     path( 'ingredients/', views.ingredients),
     path( 'ingredients/add', views.formulaireCreationIngredient),
     path( 'ingredients/create', views.creerIngredient),
+    path( 'empanadas/add', views.formulaireCreationEmpanada),
+    path( 'empanadas/create', views.creerEmpanada),
 ]

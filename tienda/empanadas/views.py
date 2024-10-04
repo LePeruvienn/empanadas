@@ -3,6 +3,7 @@ from empanadas.models import Empanada
 from empanadas.models import Ingredient
 from empanadas.models import Composition
 from empanadas.forms import IngredientForm
+from empanadas.forms import EmpanadaForm
 
 # Create your views here.
 
@@ -57,4 +58,40 @@ def creerIngredient(request):
                 {
                     'nom' : nomIngr,
                 }
+        )
+    else:
+        return render (
+            request,
+            'empanadas/formulaireNonValide.html',
+            { 'erreurs' : form.errors},
+        )
+
+def formulaireCreationEmpanada(request):
+    return render (
+            request,
+            'empanadas/formulaireCreationEmpanada.html'
+            )
+
+def creerEmpanada(request):
+    form = EmpanadaForm(request.POST)
+    if form.is_valid():
+        nomEmpd = form.cleaned_data['nomEmpanada']
+        prixEmpd = form.cleaned_data['prix']
+        empd = Empanada()
+        empd.nomEmpanada = nomEmpd
+        empd.prix = prixEmpd
+        empd.save()
+        return render(
+                request,
+                'empanadas/traitementFormulaireCreationEmpanada.html',
+                {
+                    'nom' : nomEmpd,
+                    'prix' : prixEmpd,
+                }
+        )
+    else:
+        return render (
+            request,
+            'empanadas/formulaireNonValide.html',
+            { 'erreurs' : form.errors},
         )

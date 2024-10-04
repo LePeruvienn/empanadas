@@ -23,7 +23,7 @@ class Empanada(models.Model):
     prix = models.DecimalField( max_digits = 6, decimal_places = 2 )
     # version python du toString(), utilise par django dans ses interfaces
     def __str__(self) :
-        return self.nomEmpanada
+        return self.nomEmpanada + ' (prix ' + str(self.prix) + '€ )'
 
 ### CLASSE EMPANADA
 class Composition(models.Model):
