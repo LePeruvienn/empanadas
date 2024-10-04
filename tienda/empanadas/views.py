@@ -1,9 +1,10 @@
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from empanadas.models import Empanada
 from empanadas.models import Ingredient
 from empanadas.models import Composition
 from empanadas.forms import IngredientForm
 from empanadas.forms import EmpanadaForm
+from empanadas.forms import CompositionForm
 
 # Create your views here.
 
@@ -28,12 +29,14 @@ def ingredients(request):
 
 # "/ingredients" request
 def empanada(request, empanada_id):
+    lesIngredients = Ingredient.objects.all()
     laEmpanada = Empanada.objects.get( idEmpanada = empanada_id )
     compo = Composition.objects.filter (empanada = empanada_id)
     return render(
             request,
             'empanadas/empanada.html',
             {
+                'ingredients' : lesIngredients,
                 'empanada' : laEmpanada,
                 'composition' : compo 
             }
@@ -94,4 +97,30 @@ def creerEmpanada(request):
             request,
             'empanadas/formulaireNonValide.html',
             { 'erreurs' : form.errors},
+        )
+
+def ajouterIngredientsEmpanada(request,empanada_id):
+    form = CompositionForm(request.POST)
+    if form.is_valid():
+        ingr = form.cleaned_data['ingredient']
+        qt = form.cleaned_data['quantite']
+        emp = Empanada.objects.get(idEmpanada=empanada_id)
+        recherche = Composition.objects.filter(
+                    empanada=empanada_id,
+                    ingredient=ingr.idIngredient,
+                )
+        if recherche.count() > 0:
+            ligne = recherche.first()
+        else:
+            ligne = Composition()
+            ligne.ingredient = ingr
+            ligne.empanada = emp
+        ligne.quantite = qt
+        ligne.save()
+        return redirect('/empanada/%d' % empanada_id)
+    else:
+        return render (
+            request,
+            'empanadas/formulaireNonValide.html',
+            {'erreurs' : form.errors}
         )

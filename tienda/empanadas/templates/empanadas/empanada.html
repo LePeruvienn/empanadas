@@ -6,25 +6,60 @@
 
 <h2> {{ empanada }} </h2>
 
-	<table class="table table-striped">
-		<thead>
-			<tr>
-				<th scope="col"> Quantité </th>
-				<th scope="col"> Ingrédient </th>
-			</tr>
-		</thead>
-		<tbody>
-			{% for ing in composition %}
-			<tr>
-				<td scope="row">
-					{{ing.quantite}}
-				</td>
-				<td scope="row">
-					{{ing.ingredient.nomIngredient}}
-				</td>
-			</tr>
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col"> Quantité </th>
+			<th scope="col"> Ingrédient </th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for ing in composition %}
+		<tr>
+			<td scope="row">
+				{{ing.quantite}}
+			</td>
+			<td scope="row">
+				{{ing.ingredient.nomIngredient}}
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
+<h2> Ajouter un ingrédient à la recette </h2>
+
+<form
+	action="/empanada/{{empanada.idEmpanada}}/addIngredient"
+	method="post"
+>
+	{% csrf_token %}
+	<div class="m-3">
+		<label
+			for="id_ingredient"
+			class="form-label"
+		>
+			ingrédient
+		</label>
+		<select
+			id="id_ingredient"
+			name="ingredient"
+			class="form-select"
+			requiered
+		>
+			<option selected disabled> choissisez </option>
+
+			{% for ingr in ingredients %}
+				<option value="{{ingr.idIngredient}}"> 
+					{{ingr.nomIngredient}}
+				</option>
 			{% endfor %}
-		</tbody>
-	</table>
+
+		</select>
+	</div>
+	<button type="submit" class="btn btn-primary">
+		Envoyer
+	</button>
+</form>
 
 {% endblock %}
