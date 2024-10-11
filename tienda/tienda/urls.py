@@ -28,4 +28,6 @@ urlpatterns = [
     path( 'ingredients/create', views.creerIngredient),
     path( 'empanadas/add', views.formulaireCreationEmpanada),
     path( 'empanadas/create', views.creerEmpanada),
+    path('empanadas/<int:empanada_id>/delete/', views.supprimerEmpanada),
+    path('empanadas/<int:empanada_id>/update/', views.afficherFormulaireModificationEmpanada), 
 ]

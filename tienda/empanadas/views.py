@@ -124,3 +124,22 @@ def ajouterIngredientsEmpanada(request,empanada_id):
             'empanadas/formulaireNonValide.html',
             {'erreurs' : form.errors}
         )
+
+
+def supprimerEmpanada(request, empanada_id):
+    lesEmpanadas = Empanada.objects.all()
+    laEmpanada = Empanada.objects.get( idEmpanada = empanada_id )
+    laEmpanada.delete()
+    return render (
+        request,
+        'empanadas/empanadas.html',
+        {'empanadas' : lesEmpanadas}
+    )
+
+def afficherFormulaireModificationEmpanada(request, empanada_id):
+    laEmpanada = Empanada.objects.get( idEmpanada = empanada_id )
+    return render (
+        request,
+        'empanadas/formulaireModificationEmpanada.html',
+        { 'empanada' : laEmpanada }
+    )

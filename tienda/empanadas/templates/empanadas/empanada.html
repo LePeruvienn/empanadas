@@ -6,26 +6,34 @@
 
 <h2> {{ empanada }} </h2>
 
-<table class="table table-striped">
-	<thead>
-		<tr>
-			<th scope="col"> Quantité </th>
-			<th scope="col"> Ingrédient </th>
-		</tr>
-	</thead>
-	<tbody>
-		{% for ing in composition %}
-		<tr>
-			<td scope="row">
-				{{ing.quantite}}
-			</td>
-			<td scope="row">
-				{{ing.ingredient.nomIngredient}}
-			</td>
-		</tr>
-		{% endfor %}
-	</tbody>
-</table>
+{% if composition|length > 0 %}
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col"> Quantité </th>
+				<th scope="col"> Ingrédient </th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for ing in composition %}
+			<tr>
+				<td scope="row">
+					{{ing.quantite}}
+				</td>
+				<td scope="row">
+					{{ing.ingredient.nomIngredient}}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% else %}
+
+    Les ingrédients n'ont pas encore été renseignés.
+
+{% endif %}
 
 <h2> Ajouter un ingrédient à la recette </h2>
 

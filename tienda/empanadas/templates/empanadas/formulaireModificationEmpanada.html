@@ -1,0 +1,51 @@
+{% extends 'empanadas/base.html' %}
+
+{% block title %} Modification d'une empanada {% endblock %}
+
+{% block main %}
+<h2> Modification d'une empanada </h2>
+
+<form action="/empanadas/{{empanada.idEmpanada}}/updated" method="post">
+	{% csrf_token %}
+	<div class="m-3">
+		<label
+			for="id_nomEmpanada"
+			class="form-label"
+		>
+			Le nom de l'empanada
+		</label>
+		<input
+			id="id_nomEmpanada"
+			name="nomEmpanda"
+			type="text"
+			value="{{empanada.nomEmpanda}}"
+			maxlength="50"
+			required
+			class="form-control"
+		/>
+	</div>
+	<div class="m-3">
+		<label
+			for="id_prix"
+			class="form-label"
+		>
+			Prix
+		</label>
+		<input
+			id="id_prix"
+			name="prix"
+			type="number"
+			step="any"
+			required
+			class="form-control"
+		/>
+	</div>
+	<button
+		type="submit"
+		class="btn btn-primary"
+	>
+		Envoyer
+	</button>
+</form>
+
+{% endblock %}
