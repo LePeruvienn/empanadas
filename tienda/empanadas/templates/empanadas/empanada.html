@@ -30,7 +30,7 @@
 <h2> Ajouter un ingrédient à la recette </h2>
 
 <form
-	action="/empanada/{{empanada.idEmpanada}}/addIngredient"
+	action="/empanadas/{{empanada.idEmpanada}}/addIngredient"
 	method="post"
 >
 	{% csrf_token %}
@@ -54,8 +54,22 @@
 					{{ingr.nomIngredient}}
 				</option>
 			{% endfor %}
-
 		</select>
+
+		<label
+			for="id_quantite"
+			class="form-label"
+		>
+			Quantité
+		</label>
+		<input 
+			id="id_quantite"
+			name="quantite"
+			type="text"
+			maxlength="100"
+			requiered
+			class="form-control"
+		>
 	</div>
 	<button type="submit" class="btn btn-primary">
 		Envoyer

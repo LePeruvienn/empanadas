@@ -117,7 +117,7 @@ def ajouterIngredientsEmpanada(request,empanada_id):
             ligne.empanada = emp
         ligne.quantite = qt
         ligne.save()
-        return redirect('/empanada/%d' % empanada_id)
+        return redirect('/empanadas/%d' % empanada_id)
     else:
         return render (
             request,
