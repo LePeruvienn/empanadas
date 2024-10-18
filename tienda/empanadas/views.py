@@ -143,3 +143,52 @@ def afficherFormulaireModificationEmpanada(request, empanada_id):
         'empanadas/formulaireModificationEmpanada.html',
         { 'empanada' : laEmpanada }
     )
+
+def modifierEmpanada(request, empanada_id):
+    empd = Empanada.objects.get( idEmpanada = empanada_id )
+    form = EmpanadaForm(request.POST, instance = empd)
+    if form.is_valid():
+        nomEmpd = form.cleaned_data['nomEmpanada']
+        prixEmpd = form.cleaned_data['prix']
+        empd.nomEmpanada = nomEmpd
+        empd.prix = prixEmpd
+        empd.save()
+        return empanadas(request)
+    else:
+        return render (
+            request,
+            'empanadas/formulaireNonValide.html',
+            { 'erreurs' : form.errors},
+        )
+
+
+def afficherFormulaireModificationIngredient(request, ingredient_id):
+    leIngredient = Ingredient.objects.get( idIngredient = ingredient_id )
+    return render (
+        request,
+        'empanadas/formulaireModificationIngredient.html',
+        { 'ingredient' : leIngredient }
+    )
+
+
+def modifierIngredient(request, ingredient_id):
+    ingr = Ingredient.objects.get( idIngredient = ingredient_id )
+    form = IngredientForm(request.POST, instance = ingr)
+    if form.is_valid():
+        nomIngr = form.cleaned_data['nomIngredient']
+        ingr.nomIngredient = nomIngr
+        ingr.save()
+        return ingredients(request)
+    else:
+        return render (
+            request,
+            'empanadas/formulaireNonValide.html',
+            { 'erreurs' : form.errors},
+        )
+
+
+def supprimerIngredient(request, ingredient_id):
+    leIngredient = Ingredient.objects.all()
+    leIngredient = Ingredient.objects.get( idIngredient = ingredient_id )
+    leIngredient.delete()
+    return ingredients(request)

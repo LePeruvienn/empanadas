@@ -5,7 +5,7 @@
 {% block main %}
 <h2> Modification d'une empanada </h2>
 
-<form action="/empanadas/{{empanada.idEmpanada}}/updated" method="post">
+<form action="/empanadas/{{empanada.idEmpanada}}/updated/" method="post">
 	{% csrf_token %}
 	<div class="m-3">
 		<label
@@ -16,9 +16,9 @@
 		</label>
 		<input
 			id="id_nomEmpanada"
-			name="nomEmpanda"
+			name="nomEmpanada"
 			type="text"
-			value="{{empanada.nomEmpanda}}"
+			value="{{empanada.nomEmpanada}}"
 			maxlength="50"
 			required
 			class="form-control"
@@ -34,6 +34,7 @@
 		<input
 			id="id_prix"
 			name="prix"
+			value="{{empanada.prix}}"
 			type="number"
 			step="any"
 			required
