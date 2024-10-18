@@ -34,4 +34,5 @@ urlpatterns = [
     path('empanadas/<int:empanada_id>/delete/', views.supprimerEmpanada),
     path('empanadas/<int:empanada_id>/update/', views.afficherFormulaireModificationEmpanada), 
     path('empanadas/<int:empanada_id>/updated/', views.modifierEmpanada), 
+    path('empanadas/<int:empanada_id>/deleteIngredient/<int:ing_id>/', views.supprimerIngredientDansEmpanada), 
 ]
