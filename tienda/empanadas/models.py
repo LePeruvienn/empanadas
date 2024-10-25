@@ -21,6 +21,8 @@ class Empanada(models.Model):
     nomEmpanada = models.CharField( max_length = 50 )
     # nombre decimal, max 6 chiffres dont 2 après la virgule
     prix = models.DecimalField( max_digits = 6, decimal_places = 2 )
+    # Image associée à l'empanada
+    image = models.ImageField(default="imagesEmpanadas/default.png", upload_to='imagesEmpanadas/')
     # version python du toString(), utilise par django dans ses interfaces
     def __str__(self) :
         return self.nomEmpanada + ' (prix ' + str(self.prix) + '€ )'
