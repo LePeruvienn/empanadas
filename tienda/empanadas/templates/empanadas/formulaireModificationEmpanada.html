@@ -5,8 +5,29 @@
 {% block main %}
 <h2> Modification d'une empanada </h2>
 
-<form action="/empanadas/{{empanada.idEmpanada}}/updated/" method="post">
+<form action="/empanadas/{{empanada.idEmpanada}}/updated/" method="post" enctype="multipart/form-data">
 	{% csrf_token %}
+	<div class="m-3">
+		<figure class="w-25 text-center m-auto">
+			<img src="{{MEDIA_URL}}{{empanada.image}}" class="img-fluid"/>
+			<figcaption>
+				image actuelles : {{empanada.image}}
+			</figcaption>
+		</figure>
+		<label
+			for="id_image"
+			class="form-label"
+		>
+			Nouvelle image
+		</label>
+		<input
+			id="id_image"
+			name="image"
+			type="file"
+			accept="image/*"
+			class="form-control"
+		/>
+	</div>
 	<div class="m-3">
 		<label
 			for="id_nomEmpanada"

@@ -146,12 +146,14 @@ def afficherFormulaireModificationEmpanada(request, empanada_id):
 
 def modifierEmpanada(request, empanada_id):
     empd = Empanada.objects.get( idEmpanada = empanada_id )
-    form = EmpanadaForm(request.POST, instance = empd)
+    form = EmpanadaForm(request.POST, request.FILES, instance = empd)
     if form.is_valid():
         nomEmpd = form.cleaned_data['nomEmpanada']
         prixEmpd = form.cleaned_data['prix']
         empd.nomEmpanada = nomEmpd
         empd.prix = prixEmpd
+        if 'image' in request.FILES:
+            empd.image = request.FILES['image']
         empd.save()
         return empanadas(request)
     else:
