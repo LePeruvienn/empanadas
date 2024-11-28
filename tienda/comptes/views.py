@@ -19,4 +19,8 @@ def connexion(request):
 
 def deconnexion(request):
     logout (request)
-    return redirect ('/comptes/logout.html')
+    return render(
+        request,
+        'comptes/logout.html',
+    )
+
