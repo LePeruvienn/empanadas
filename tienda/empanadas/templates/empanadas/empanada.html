@@ -26,6 +26,8 @@
 				<td scope="row">
 					{{ing.ingredient.nomIngredient}}
 				</td>
+
+				{% if user.is_staff %}
 				<td>
 					<a href="/empanadas/{{empanada.idEmpanada}}/deleteIngredient/{{ing.ingredient.idIngredient}}/">
 						<svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
@@ -34,6 +36,7 @@
 						</svg>
 					</a>
 				</td>
+				{% endif %}
 			</tr>
 			{% endfor %}
 		</tbody>
