@@ -1,0 +1,38 @@
+{% extends 'empanadas/base.html' %}
+
+{% block title %} profil {% endblock %}
+
+{% block main %}
+<h2> Votre compte </h2>
+<form
+	id="form_profil"
+	method="post" enctype="multipart/form-data"
+	action="/user/updated/"
+>
+	{% csrf_token %}
+	<div class="m-3">
+		<label for="id_username" class="form-label">
+			identifiant
+		</label>
+		<input id="id_username" type="text" name="username" class="form-control" value="{{user.username}}"/>
+	</div>
+	<div class="m-3">
+		<label for="id_firstname" class="form-label">
+			prénom
+		</label>
+		<input id="id_firstname" type="text" name="first_name" class="form-control" value="{{user.first_name}}"/>
+	</div>
+	<div class="m-3">
+		<label for="id_lastname" class="form-label">
+			prénom
+		</label>
+		<input id="id_lastname" type="text" name="last_name" class="form-control" value="{{user.last_name}}"/>
+	</div>
+	<div class="m-3">
+		<label for="id_email" class="form-label">
+			identifiant
+		</label>
+		<input id="id_email" type="text" name="email" class="form-control" value="{{user.email}}"/>
+	</div>
+
+{% endblock %}

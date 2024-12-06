@@ -50,11 +50,32 @@
 						class="nav-link"
 						href="/ingredients/add"
 					>
-						créer une empanada
+						créer un ingredients
 					</a>
 				</li>
 			</ul>
 			<ul class="navbar-nav">
+				<li class="nav-item d-flex flex-row">
+					<span class="nav-link">
+						Bienvenue {{user}}!
+					</span>
+					<img src="{{MEDIA_URL}}{{user.image}}" class="rounded-circle" alt="logo"/>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">
+						profil
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">
+						panier
+					</a>
+				</li>
+				<li class="nav-item">
+					<a class="nav-link" href="#">
+						commandes
+					</a>
+				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/logout">
 						déconnexion

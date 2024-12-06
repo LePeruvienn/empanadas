@@ -2,29 +2,47 @@ from django.shortcuts import redirect, render
 from empanadas.models import Empanada
 from empanadas.models import Ingredient
 from empanadas.models import Composition
+from comptes.models import TiendaUser
 from empanadas.forms import IngredientForm
 from empanadas.forms import EmpanadaForm
 from empanadas.forms import CompositionForm
+from django.contrib.auth.models import User
 
 # Create your views here.
 
 # "/empanadas" request
 def empanadas(request):
+    user = None
     lesEmpanadas = Empanada.objects.all()
+    if request.user.is_authenticated:
+        user = TiendaUser.objects.get(id=request.user.id)
     return render(
             request,
             'empanadas/empanadas.html',
-            {'empanadas' : lesEmpanadas}
-            )
+            {
+                'empanadas' : lesEmpanadas,
+                'user' : user,
+            }
+    )
 
 # "/ingredients" request
 def ingredients(request):
-    lesIngredients = Ingredient.objects.all()
-    return render(
-            request,
-            'empanadas/ingredients.html',
-            {'ingredients' : lesIngredients}
-            )
+    user = None
+    if request.user.is_staff:
+        lesIngredients = Ingredient.objects.all()
+        user = User.objects.get(id=request.user.id)
+        return render(
+                request,
+                'empanadas/ingredients.html',
+                {
+                    'ingredients': lesIngredients,
+                    'user': user,
+                }
+        )
+    elif request.user.is_authenticated:
+        return redirect('/empanadas')
+    else:
+        return redirect('/login')
 
 
 # "/ingredients" request
@@ -43,12 +61,26 @@ def empanada(request, empanada_id):
     )
 
 def formulaireCreationIngredient(request):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     return render (
             request,
             'empanadas/formulaireCreationIngredient.html'
             )
 
 def creerIngredient(request):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     form = IngredientForm(request.POST)
     if form.is_valid():
         nomIngr = form.cleaned_data['nomIngredient']
@@ -70,12 +102,26 @@ def creerIngredient(request):
         )
 
 def formulaireCreationEmpanada(request):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     return render (
             request,
             'empanadas/formulaireCreationEmpanada.html'
             )
 
 def creerEmpanada(request):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     form = EmpanadaForm(request.POST)
     if form.is_valid():
         nomEmpd = form.cleaned_data['nomEmpanada']
@@ -100,6 +146,13 @@ def creerEmpanada(request):
         )
 
 def ajouterIngredientsEmpanada(request,empanada_id):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     form = CompositionForm(request.POST)
     if form.is_valid():
         ingr = form.cleaned_data['ingredient']
@@ -127,6 +180,13 @@ def ajouterIngredientsEmpanada(request,empanada_id):
 
 
 def supprimerEmpanada(request, empanada_id):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     lesEmpanadas = Empanada.objects.all()
     laEmpanada = Empanada.objects.get( idEmpanada = empanada_id )
     laEmpanada.delete()
@@ -137,6 +197,13 @@ def supprimerEmpanada(request, empanada_id):
     )
 
 def afficherFormulaireModificationEmpanada(request, empanada_id):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     laEmpanada = Empanada.objects.get( idEmpanada = empanada_id )
     return render (
         request,
@@ -145,6 +212,13 @@ def afficherFormulaireModificationEmpanada(request, empanada_id):
     )
 
 def modifierEmpanada(request, empanada_id):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     empd = Empanada.objects.get( idEmpanada = empanada_id )
     form = EmpanadaForm(request.POST, request.FILES, instance = empd)
     if form.is_valid():
@@ -165,6 +239,13 @@ def modifierEmpanada(request, empanada_id):
 
 
 def afficherFormulaireModificationIngredient(request, ingredient_id):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     leIngredient = Ingredient.objects.get( idIngredient = ingredient_id )
     return render (
         request,
@@ -174,6 +255,13 @@ def afficherFormulaireModificationIngredient(request, ingredient_id):
 
 
 def modifierIngredient(request, ingredient_id):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     ingr = Ingredient.objects.get( idIngredient = ingredient_id )
     form = IngredientForm(request.POST, instance = ingr)
     if form.is_valid():
@@ -190,12 +278,26 @@ def modifierIngredient(request, ingredient_id):
 
 
 def supprimerIngredient(request, ingredient_id):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     leIngredient = Ingredient.objects.all()
     leIngredient = Ingredient.objects.get( idIngredient = ingredient_id )
     leIngredient.delete()
     return ingredients(request)
 
 def supprimerIngredientDansEmpanada(request, empanada_id, ing_id):
+    # Check if user have permissions
+    if not request.user.is_staff:
+        if request.user.is_authenticated:
+            return redirect('/empanadas')
+        else:
+            return redirect('/login')
+
     compo = Composition.objects.get(
                 empanada=empanada_id,
                 ingredient=ing_id,
