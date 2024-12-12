@@ -1,0 +1,43 @@
+{% extends 'empanadas/base.html' %}
+
+{% block title %} panier {% endblock %}
+
+{% block main %}
+
+{% if lignes|length > 0 %}
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col"> empanada </th>
+				<th scope="col"> quantite </th>
+				<th scope="col"> prix </th>
+				<th scope="col"> total </th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for ligne in lignes %}
+			<tr>
+				<td scope="row">
+					{{ligne.empanada.nomEmpanada}}
+				</td>
+				<td scope="row">
+					{{ligne.quantite}}
+				</td>
+				<td scope="row">
+					{{ligne.prix}}
+				</td>
+				<td scope="row">
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% else %}
+
+	<h2> votre panier est vide </h2>
+
+{% endif %}
+
+{% endblock %}
