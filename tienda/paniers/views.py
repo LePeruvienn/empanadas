@@ -11,18 +11,21 @@ def afficherPanier(request):
     if request.user.is_authenticated:
         panier = None
         lignes = None
+        total = 0
         user = TiendaUser.objects.get(id = request.user.id)
-        non_payees = Commande.objects.filter( user = user ).filter( payee = False ) 
+        non_payees = Commande.objects.filter( user = user, payee = False ) 
 
         if len(non_payees) > 0:
             panier = non_payees[0]
+            total = panier.prix
             lignes = LigneCommande.objects.filter(commande_id = panier.idCommande)
 
         return render(
                 request,
                 'paniers/panier.html',
                 {
-                    'lignes' : lignes
+                    'lignes' : lignes,
+                    'total' : total
                 }
         )
     else:
@@ -64,6 +67,10 @@ def retirerDuPanier(request, empanada_id):
         ligne = LigneCommande.objects.get(commande=panier, empanada=empanada)
         # On arrête tout si la ligne existe pas 
         if ligne is not None:
+            # On retire la valeurs de la ligne du panier
+            panier.prix = panier.prix - ligne.prix
+            panier.save()
+            # On supprime le panier
             ligne.delete()
     # On affiche le panier
     return redirect ('/cart')
@@ -85,6 +92,8 @@ def retirerUneEmpanadaDuPanier(request, empanada_id):
         ligne = LigneCommande.objects.get(commande=panier, empanada=empanada)
         # On arrête tout si la ligne existe pas 
         if ligne is not None:
+            panier.prix = panier.prix - empanada.prix
+            panier.save()
             if ligne.quantite > 1:
                 ligne.quantite = ligne.quantite - 1
                 ligne.prix = ligne.prix - empanada.prix
@@ -128,3 +137,49 @@ def payerPanier(request):
             {}
         )
     return redirect('/cart')
+
+def afficherCommandes(request):
+    # Si le user est pas connecté on le redirige vers son panier
+    if not request.user.is_authenticated:
+        return redirect ('/login')
+    # On récupère les données
+    user = TiendaUser.objects.get(id=request.user.id)
+    # On récupère la commande en cours du client
+    commandes = []
+    commandes = Commande.objects.filter(user=user, payee=True)
+    # On arrête tout si le panier existe pas 
+    return render(
+        request,
+        'paniers/commandes.html',
+        {
+            'commandes' : commandes,
+            'total' : sum(commande.prix for commande in commandes)
+        }
+    )
+
+def afficherCommande(request, commande_id):
+    user = None
+    # On arrete ici si le user est pas connecté
+    if not request.user.is_authenticated:
+        return redirect ('/login')
+    # On initialise Commande
+    commande = None
+    # On récupère le user
+    user = TiendaUser.objects.get(id = request.user.id)
+    # On récupère la commande
+    try:
+        commande = Commande.objects.get(user = user, idCommande=commande_id) 
+    # Si l'utilisateur ne poss-de pas cete commande alors on arrete la 
+    except Commande.DoesNotExist:
+        return redirect('/orders')
+    # On récpère les différentes ligne de la commande
+    lignes = LigneCommande.objects.filter(commande_id=commande_id)
+    # On affiche la vue
+    return render(
+            request,
+            'paniers/commande.html',
+            {
+                'lignes' : lignes,
+                'prix_total' : commande.prix
+            }
+    )
