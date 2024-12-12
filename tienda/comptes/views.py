@@ -5,6 +5,7 @@ from django.contrib.auth import authenticate
 from django.contrib.auth import login
 from django.contrib.auth import logout
 from comptes.models import TiendaUser
+from comptes.forms import TiendaUserForm
 
 
 # Create your views here.
@@ -35,5 +36,16 @@ def formulaireProfil(request):
                 'user' : TiendaUser.objects.get(id=request.user.id),
             }
         )
+    else:
+        return redirect('/login')
+
+def traitementFormulaireProfil(request):
+    user = None
+    if request.user.is_authenticated:
+        user = TiendaUser.objects.get(id=request.user.id)
+        form = TiendaUserForm(request.POST, request.FILES, instance=user)
+        if form.is_valid():
+            form.save()
+            return redirect('/empanadas')
     else:
         return redirect('/login')

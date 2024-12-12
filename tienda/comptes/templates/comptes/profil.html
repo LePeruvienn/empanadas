@@ -34,5 +34,22 @@
 		</label>
 		<input id="id_email" type="text" name="email" class="form-control" value="{{user.email}}"/>
 	</div>
+	<div class="m-3">
+		<figure class="w-25 text-center m-auto">
+			<img src="{{MEDIA_URL}}{{user.image}}" class="img-fluid"/>
+			<figcaption> avatar actuelle </figcaption>
+		</figure>
+		<label for="id_image" class="form-label">
+			autre photo
+		</label>
+		<input id="id_image" type="file" name="image" class="form-control" accept="image/*"/>
+	</div>
+	<button
+		type="submit"
+		class="btn btn-primary"
+	>
+		Envoyer
+	</button>
+</form>
 
 {% endblock %}

@@ -8,4 +8,6 @@ urlpatterns = [
     path( 'logout', views.deconnexion, name='logout'),
     path( 'logout.html', views.deconnexion, name='logout'),
     path( 'connexion', views.connexion),
+    path( 'user/update/', views.formulaireProfil), 
+    path( 'user/updated/', views.traitementFormulaireProfil),
 ]
