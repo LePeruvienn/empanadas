@@ -1,13 +1,6 @@
 {% load static %}
 <nav class="navbar navbar-expand-lg navbar-dark bg-success">
 	<div class="container-fluid">
-		<a class="navbar-brand" href="/empanadas">
-			<img 
-				src="{% static 'empanadas/img/ico.png' %}"
-				alt="logo"
-			/>
-			Tienda de Empanadas
-		</a>
 		<button
 			class="navbar-toggler"
 			type="button"
@@ -21,59 +14,17 @@
 		</button>
 		<div id="navbarText" class="collapse navbar-collapse">
 			<ul class="navbar-nav me-auto mb-2 mb-lg-0">
-				<li class="nav-item">
-					<a 
-						class="nav-link"
-						href="/empanadas"
-					>
-						Les empanadas
-					</a>
-				</li>
-				<li class="nav-item">
-					<a 
-						class="nav-link"
-						href="/ingredients"
-					>
-						Les ingredients
-					</a>
-				</li>
-				<li class="nav-item">
-					<a 
-						class="nav-link"
-						href="/empanadas/add"
-					>
-						créer une empanada
-					</a>
-				</li>
-				<li class="nav-item">
-					<a 
-						class="nav-link"
-						href="/ingredients/add"
-					>
-						créer un ingredients
-					</a>
-				</li>
 			</ul>
 			<ul class="navbar-nav">
 				<li class="nav-item d-flex flex-row">
 					<span class="nav-link">
-						Bienvenue {{user}}!
+						Compratiote {{user}}.
 					</span>
 					<img src="{{MEDIA_URL}}{{user.image}}" class="rounded-circle" alt="logo"/>
 				</li>
 				<li class="nav-item">
 					<a class="nav-link" href="/user/update/">
 						profil
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/cart">
-						panier
-					</a>
-				</li>
-				<li class="nav-item">
-					<a class="nav-link" href="/orders">
-						commandes
 					</a>
 				</li>
 				<li class="nav-item">

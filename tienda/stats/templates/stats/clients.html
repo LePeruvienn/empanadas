@@ -1,0 +1,63 @@
+{% extends 'empanadas/base.html' %}
+
+{% block title %} les clients {% endblock %}
+
+{% block main %}
+
+<h2> les clients </h2>
+
+{% if clients|length > 0 %}
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col"> photo </th>
+				<th scope="col"> username </th>
+				<th scope="col"> nom </th>
+				<th scope="col"> prénom </th>
+				<th scope="col"> email </th>
+				<th scope="col"> inscription </th>
+				<th scope="col"> commandes </th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for client in clients %}
+			<tr>
+				<td scope="row">
+					<img src="{{MEDIA_URL}}{{client.image}}" class="rounded-circle" alt="logo"/>
+				</td>
+				<td scope="row">
+					{{ client.username }}
+				</td>
+				<td scope="row">
+					{{ client.last_name }}
+				</td>
+				<td scope="row">
+					{{ client.first_name }}
+				</td>
+				<td scope="row">
+					{{ client.email }}
+				</td>
+				<td scope="row">
+					{{ client.date_joined }}
+				</td>
+				<td scope="row">
+					<a href="/stats/clients/{{ client.id }}">
+						<svg xmlns="http://www.w3.org/2000/svg" width="7.5%" height="7.5%" fill="lightblue" class="bi bi-credit-card" viewBox="0 0 16 16">
+						  <path d="M0 4a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2zm2-1a1 1 0 0 0-1 1v1h14V4a1 1 0 0 0-1-1zm13 4H1v5a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1z"/>
+						  <path d="M2 10a1 1 0 0 1 1-1h1a1 1 0 0 1 1 1v1a1 1 0 0 1-1 1H3a1 1 0 0 1-1-1z"/>
+						</svg>
+					</a>
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% else %}
+
+	<h2> vous avez aucun client :'( </h2>
+
+{% endif %}
+
+{% endblock %}

@@ -1,0 +1,82 @@
+{% extends 'empanadas/base.html' %}
+
+{% block title %} panier {% endblock %}
+
+{% block main %}
+
+<h2> les commnades de <i class="fs-italic">{{username}}</i></h2>
+
+{% if commandes|length > 0 %}
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th
+					scope="col"
+					rowspan="2"
+				>
+					numéro
+				</th>
+				<th
+					scope="col"
+					rowspan="2"
+				>
+					date 
+				</th>
+				<th
+					scope="col"
+					rowspan="2"
+				>
+					prix total 
+				</th>
+				<th
+					class="text-center"
+					scope="col"
+					colspan="3"
+				>
+					détails
+				</th>
+			</tr>
+			<tr>
+				<th scope="col"> empanada </th>
+				<th scope="col"> qt. </th>
+				<th scope="col"> prix </th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for commande in commandes %}
+				<tr>
+					<td scope="row">
+						{{commande.idCommande}}
+					</td>
+					<td scope="row">
+						{{commande.dateCommande}}
+					</td>
+					<td scope="row">
+						{{commande.prix}}
+					</td>
+					<td></td>
+					<td></td>
+					<td></td>
+				</tr>
+				{% for ligne in commande.lignes %}
+					<tr>
+						<td></td>
+						<td></td>
+						<td></td>
+						<td>{{ ligne.empanada.nomEmpanada }}</td>
+						<td>{{ ligne.quantite }}</td>
+						<td>{{ ligne.prix }}</td>
+					</tr>
+				{% endfor %}
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% else %}
+
+	<h2> Il n'y aucune commande par ici :0 </h2>
+
+{% endif %}
+
+{% endblock %}

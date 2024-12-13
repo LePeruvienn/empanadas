@@ -19,11 +19,16 @@
 			{% include 'comptes/menuNonConnecte.html' %}
 			{% endif %}
 		</header>
-		<main class="m-5">
-			{% block main %} {% endblock %}
-		</main>
+		<div class="d-flex">
+			{% if user.is_staff %}
+				{% include 'empanadas/sidebar.html' %}
+			{% endif %}
+			<main class="m-5">
+				{% block main %} {% endblock %}
+			</main>
+		</div>
 
-		<footer class="footer">
+		<footer class="footer py-3">
 			{% include 'empanadas/footer.html' %}
 		</footer>
 		

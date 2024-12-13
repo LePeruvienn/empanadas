@@ -1,0 +1,46 @@
+{% extends 'empanadas/base.html' %}
+
+{% block title %} les commandes {% endblock %}
+
+{% block main %}
+
+<h2> la commande <i classs="fs-italic">{{commande.idCommande}}</i> </h2>
+
+<p>
+	La commande à été réaliser le <i classs="fs-italic">{{commande.dateCommande}}</i>, pour un total de <i classs="fs-italic">{{commande.prix}}</i> € !!
+</p>
+
+{% if lignes|length > 0 %}
+
+	<table class="table table-striped">
+		<thead>
+			<tr>
+				<th scope="col"> empanada </th>
+				<th scope="col"> qt. </th>
+				<th scope="col"> prix </th>
+			</tr>
+		</thead>
+		<tbody>
+			{% for ligne in lignes %}
+			<tr>
+				<td scope="row">
+					{{ligne.empanada.nomEmpanada}}
+				</td>
+				<td scope="row">
+					{{ligne.quantite}}
+				</td>
+				<td scope="row">
+					{{ligne.prix}}
+				</td>
+			</tr>
+			{% endfor %}
+		</tbody>
+	</table>
+
+{% else %}
+
+	<h2> Bizzare une commandes sans lignes ... </h2>
+
+{% endif %}
+
+{% endblock %}

@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'empanadas',
     'comptes',
     'paniers',
+    'stats',
 ]
 
 MIDDLEWARE = [
