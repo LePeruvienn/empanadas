@@ -25,7 +25,8 @@ def afficherPanier(request):
                 'paniers/panier.html',
                 {
                     'lignes' : lignes,
-                    'total' : total
+                    'total' : total,
+                    'user' : TiendaUser.objects.get(id=request.user.id),
                 }
         )
     else:
@@ -134,7 +135,9 @@ def payerPanier(request):
         return render (
             request,
             'paniers/avisPaiement.html',
-            {}
+            {
+                'user' : TiendaUser.objects.get(id=request.user.id),
+            }
         )
     return redirect('/cart')
 
@@ -153,7 +156,8 @@ def afficherCommandes(request):
         'paniers/commandes.html',
         {
             'commandes' : commandes,
-            'total' : sum(commande.prix for commande in commandes)
+            'total' : sum(commande.prix for commande in commandes),
+            'user' : TiendaUser.objects.get(id=request.user.id),
         }
     )
 
@@ -180,6 +184,7 @@ def afficherCommande(request, commande_id):
             'paniers/commande.html',
             {
                 'lignes' : lignes,
-                'prix_total' : commande.prix
+                'prix_total' : commande.prix,
+                'user' : TiendaUser.objects.get(id=request.user.id),
             }
     )

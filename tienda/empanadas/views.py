@@ -7,6 +7,7 @@ from empanadas.forms import IngredientForm
 from empanadas.forms import EmpanadaForm
 from empanadas.forms import CompositionForm
 from django.contrib.auth.models import User
+from comptes.models import TiendaUser
 
 # Create your views here.
 
@@ -56,7 +57,8 @@ def empanada(request, empanada_id):
             {
                 'ingredients' : lesIngredients,
                 'empanada' : laEmpanada,
-                'composition' : compo 
+                'composition' : compo,
+                'user' : TiendaUser.objects.get(id=request.user.id),
             }
     )
 
@@ -69,9 +71,12 @@ def formulaireCreationIngredient(request):
             return redirect('/login')
 
     return render (
-            request,
-            'empanadas/formulaireCreationIngredient.html'
-            )
+        request,
+        'empanadas/formulaireCreationIngredient.html',
+        {
+            'user' : TiendaUser.objects.get(id=request.user.id),
+        }
+    )
 
 def creerIngredient(request):
     # Check if user have permissions
@@ -92,13 +97,17 @@ def creerIngredient(request):
                 'empanadas/traitementFormulaireCreationIngredient.html',
                 {
                     'nom' : nomIngr,
+                    'user' : TiendaUser.objects.get(id=request.user.id),
                 }
         )
     else:
         return render (
             request,
             'empanadas/formulaireNonValide.html',
-            { 'erreurs' : form.errors},
+            {
+                'erreurs' : form.errors,
+                'user' : TiendaUser.objects.get(id=request.user.id),
+            },
         )
 
 def formulaireCreationEmpanada(request):
@@ -110,9 +119,12 @@ def formulaireCreationEmpanada(request):
             return redirect('/login')
 
     return render (
-            request,
-            'empanadas/formulaireCreationEmpanada.html'
-            )
+        request,
+        'empanadas/formulaireCreationEmpanada.html',
+        {
+            'user' : TiendaUser.objects.get(id=request.user.id),
+        }
+    )
 
 def creerEmpanada(request):
     # Check if user have permissions
@@ -136,13 +148,17 @@ def creerEmpanada(request):
                 {
                     'nom' : nomEmpd,
                     'prix' : prixEmpd,
+                    'user' : TiendaUser.objects.get(id=request.user.id),
                 }
         )
     else:
         return render (
             request,
             'empanadas/formulaireNonValide.html',
-            { 'erreurs' : form.errors},
+            {
+                'erreurs' : form.errors,
+                'user' : TiendaUser.objects.get(id=request.user.id),
+            },
         )
 
 def ajouterIngredientsEmpanada(request,empanada_id):
@@ -175,7 +191,10 @@ def ajouterIngredientsEmpanada(request,empanada_id):
         return render (
             request,
             'empanadas/formulaireNonValide.html',
-            {'erreurs' : form.errors}
+            {
+                'erreurs' : form.errors,
+                'user' : TiendaUser.objects.get(id=request.user.id),
+            }
         )
 
 
@@ -193,7 +212,10 @@ def supprimerEmpanada(request, empanada_id):
     return render (
         request,
         'empanadas/empanadas.html',
-        {'empanadas' : lesEmpanadas}
+        {
+            'empanadas' : lesEmpanadas,
+            'user' : TiendaUser.objects.get(id=request.user.id),
+        }
     )
 
 def afficherFormulaireModificationEmpanada(request, empanada_id):
@@ -208,7 +230,10 @@ def afficherFormulaireModificationEmpanada(request, empanada_id):
     return render (
         request,
         'empanadas/formulaireModificationEmpanada.html',
-        { 'empanada' : laEmpanada }
+        {
+            'empanada' : laEmpanada,
+            'user' : TiendaUser.objects.get(id=request.user.id),
+        }
     )
 
 def modifierEmpanada(request, empanada_id):
@@ -234,7 +259,10 @@ def modifierEmpanada(request, empanada_id):
         return render (
             request,
             'empanadas/formulaireNonValide.html',
-            { 'erreurs' : form.errors},
+            {
+                'erreurs' : form.errors,
+                'user' : TiendaUser.objects.get(id=request.user.id),
+            },
         )
 
 
@@ -250,7 +278,10 @@ def afficherFormulaireModificationIngredient(request, ingredient_id):
     return render (
         request,
         'empanadas/formulaireModificationIngredient.html',
-        { 'ingredient' : leIngredient }
+        {
+            'ingredient' : leIngredient,
+            'user' : TiendaUser.objects.get(id=request.user.id),
+        }
     )
 
 
@@ -273,7 +304,10 @@ def modifierIngredient(request, ingredient_id):
         return render (
             request,
             'empanadas/formulaireNonValide.html',
-            { 'erreurs' : form.errors},
+            {
+                'erreurs' : form.errors,
+                'user' : TiendaUser.objects.get(id=request.user.id),
+            },
         )
 
 

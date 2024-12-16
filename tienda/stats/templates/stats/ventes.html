@@ -1,0 +1,43 @@
+{% extends 'empanadas/base.html' %}
+{% load static %}
+
+{% block title %} ventes 7j. {% endblock %}
+
+{% block main %}
+
+<h2> ventes d'empanada sur les 7 derniers jours</h2>
+
+<canvas id="chart_CA" width="100" height="40"></canvas>
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        let cnv = document.getElementById('chart_CA');
+        let ctx = cnv.getContext('2d');
+
+        new Chart(ctx, {
+			type: 'doughnut',
+            data: { 
+                labels: {{ noms|safe }},
+                datasets: [
+                    {
+                        label: 'CA',
+                        data: {{ ventes|safe }},
+                    },
+                ],
+            },
+			options: {
+				plugins: {
+					legend: {
+						position: 'top'
+					},
+					title: {
+						text: 'répartition',
+						display: true,
+					}
+				}
+			}
+        });
+    });
+</script>
+
+{% endblock %}

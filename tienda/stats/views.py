@@ -1,6 +1,7 @@
 from django.shortcuts import render, redirect
 from comptes.models import TiendaUser
 from paniers.models import Commande, LigneCommande
+from math import ceil
 
 # Create your views here.
 
@@ -19,7 +20,8 @@ def clients(request):
         request,
         'stats/clients.html',
         {
-            'clients' : clients
+            'clients' : clients,
+            'user' : TiendaUser.objects.get(id=request.user.id),
         }
     )
 
@@ -39,7 +41,8 @@ def commandes(request):
         request,
         'stats/commandes.html',
         {
-            'commandes' : commandes
+            'commandes' : commandes,
+            'user' : TiendaUser.objects.get(id=request.user.id),
         }
     )
 
@@ -59,7 +62,8 @@ def commande(request, commande_id):
         'stats/commande.html',
         {
             'lignes' : lignes,
-            'commande' : commande
+            'commande' : commande,
+            'user' : TiendaUser.objects.get(id=request.user.id),
         }
     )
 
@@ -87,6 +91,92 @@ def commandes_client(request,client_id):
         'stats/commandes_client.html',
         {
             'commandes' : commandes,
-            'username' : username
+            'username' : username,
+            'user' : TiendaUser.objects.get(id=request.user.id),
+        }
+    )
+
+
+
+def revenus (request):
+    # Si le user est pas connecté on le redirige vers la page de connection
+    if not request.user.is_authenticated:
+        return redirect ('/login') # Si il est pas staff on le renvoie vers les empanada
+    if not request.user.is_staff:
+        return redirect ('/empanadas')
+
+    requete = """
+        SELECT *
+        FROM paniers_commande
+        WHERE payee = 1
+        and julianday (date()) - julianday (dateCommande) <= 7
+        ORDER BY dateCommande
+    """
+    dernieresCommandes = Commande.objects.raw (requete)
+    datesCommandes = []
+    montantsCommandes = []
+    for cmd in dernieresCommandes:
+        date = cmd.dateCommande.strftime( '%d/%m/%Y' )
+        montant = float(cmd.prix)
+        if date not in datesCommandes:
+            datesCommandes.append(date)
+            montantsCommandes.append(montant)
+        else:
+            idx= datesCommandes.index(date)
+            montantsCommandes[idx] += montant
+
+    chiffreAffaireMax = max( montantsCommandes, default=0 )
+    graduationCA = ceil( chiffreAffaireMax//5 ) *5 +5
+    # Affichage de la vue
+    return render(
+        request,
+        'stats/revenus.html',
+        {
+            'user' : TiendaUser.objects.get(id=request.user.id),
+            'dates' : datesCommandes,
+            'montants' : montantsCommandes,
+            'CAMX' : graduationCA,
+            'commandes' : dernieresCommandes, #pour debug
+        }
+    )
+
+def ventes (request):
+    # Si le user est pas connecté on le redirige vers la page de connection
+    if not request.user.is_authenticated:
+        return redirect ('/login')
+    # Si il est pas staff on le renvoie vers les empanada
+    if not request.user.is_staff:
+        return redirect ('/empanadas')
+
+    requete = """
+        SELECT *
+        FROM paniers_commande
+        WHERE payee = 1
+        and julianday (date()) - julianday (dateCommande) <= 7
+        ORDER BY dateCommande
+    """
+    dernieresCommandes = Commande.objects.raw (requete)
+    nomsEmpanadas = []
+    ventesEmpanadas = []
+    for cmd in dernieresCommandes:
+        lignes = cmd.lignecommande_set.all()
+        for ligne in lignes:
+            nom = ligne.empanada.nomEmpanada
+            qt = ligne.quantite
+            if nom not in nomsEmpanadas:
+                nomsEmpanadas.append(nom)
+                ventesEmpanadas.append(qt)
+            else:
+                idx = nomsEmpanadas.index(nom)
+                ventesEmpanadas[idx] += qt
+    # Affichage de la vue
+    return render(
+        request,
+        'stats/ventes.html',
+        {
+            'user' : TiendaUser.objects.get(id=request.user.id),
+            'noms' : nomsEmpanadas,
+            'ventes' : ventesEmpanadas,
+            'commandes' : dernieresCommandes, #pour debug
         }
     )
