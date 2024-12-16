@@ -4,13 +4,30 @@
 
 {% block main %}
 <h2> Voici nos {{ingredients|length}} ingredients </h2>
-<ul>
-	{% for ing in ingredients %}
-	<li> 
-		{{ing}}
-		| <a href="/ingredients/{{ing.idIngredient}}/update"> modifier </a> 
-		| <a href="/ingredients/{{ing.idIngredient}}/delete"> supprimer </a> 
-	</li>
-	{% endfor %}
-</ul>
+
+<table class="table table-striped">
+	<thead>
+		<tr>
+			<th scope="col"> ingredient </th>
+			<th scope="col"> modifier </th>
+			<th scope="col"> supprimer </th>
+		</tr>
+	</thead>
+	<tbody>
+		{% for ing in ingredients %}
+		<tr>
+			<td scope="row">
+				{{ing}}
+			</td>
+			<td scope="row">
+				<a href="/ingredients/{{ing.idIngredient}}/update"> modifier </a> 
+			</td>
+			<td scope="row">
+				<a href="/ingredients/{{ing.idIngredient}}/delete"> supprimer </a> 
+			</td>
+		</tr>
+		{% endfor %}
+	</tbody>
+</table>
+
 {% endblock %}

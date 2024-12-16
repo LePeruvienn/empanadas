@@ -31,7 +31,7 @@ def ingredients(request):
     user = None
     if request.user.is_staff:
         lesIngredients = Ingredient.objects.all()
-        user = User.objects.get(id=request.user.id)
+        user = TiendaUser.objects.get(id=request.user.id)
         return render(
                 request,
                 'empanadas/ingredients.html',
